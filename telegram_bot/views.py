@@ -17,10 +17,6 @@ from telegram_bot.tasks import *
 
 # Редирект на админку
 def admin_redirect(request):
-    p = Payment.objects.get(id=26)
-
-    p.date = datetime.datetime.now() - timedelta(days=30)
-    p.save()
     return redirect('/admin/')
 
 

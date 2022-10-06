@@ -43,7 +43,7 @@ class TelegramBot(models.Model):
     author_info_message = models.TextField(verbose_name='Про автора')
     # Цена вопроса
     issue_price_message = models.TextField(verbose_name='Цена вопроса')
-    # Заголовок с ссылкой на оплату
+    # Заголовок со ссылкой на оплату
     title_payment = models.TextField(verbose_name='Заголовок с ссылкой на оплату', default='Оплата')
     # Успешная оплата
     success_payment = models.TextField(verbose_name='Успешная оплата', default='Оплата')
@@ -73,13 +73,13 @@ class TelegramBot(models.Model):
 
         # Проверяем нужно ли отправить клавиатуру
         if keyboard is None:
-            # Отправляем сообщение через бота
+            # Отправляем сообщение через бот
             try:
                 bot.sendMessage(chat_id=chat_id, text=text, parse_mode=parse_mode)
             except BotWasBlockedError:
                 pass
         else:
-            # Отправляем сообщение через бота
+            # Отправляем сообщение через бот
             try:
                 bot.sendMessage(chat_id=chat_id, text=text, reply_markup=keyboard, parse_mode=parse_mode)
             except BotWasBlockedError:
