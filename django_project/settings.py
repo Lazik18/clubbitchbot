@@ -23,7 +23,6 @@ INSTALLED_APPS = [
     'telegram_bot',
     'django_celery_results',
     'django_celery_beat',
-    'djcelery',
 ]
 
 MIDDLEWARE = [
