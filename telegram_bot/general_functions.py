@@ -50,7 +50,7 @@ def bug_trap(type_output='telegram', additional_parameter=None):
         bot_text = f'Сообщения для Ильи\n\n{text_error}'
 
         # Отправить сообщение Илье
-        bot.sendMessage(chat_id='390464104', text=bot_text)
+        bot.sendMessage(chat_id='673616491', text=bot_text)
 
 
 # Сборщиик клавиатуры
