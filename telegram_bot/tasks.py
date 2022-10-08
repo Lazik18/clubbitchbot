@@ -49,6 +49,6 @@ def subscriptions_payment():
             # Делаем заголовок
             bot_text = f'Сообщения для Ильи\n\n{payment.id}'
             # Отправить сообщение Илье
-            bot.sendMessage(chat_id='390464104', text=bot_text)
+            bot.sendMessage(chat_id='673616491', text=bot_text)
     except Exception as e:
         bug_trap()
