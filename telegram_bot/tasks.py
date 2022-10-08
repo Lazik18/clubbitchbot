@@ -43,7 +43,7 @@ def subscriptions_payment():
     try:
         # Дата для оплаты
         date_start = datetime.datetime.now() - timedelta(days=30)
-
+        print('test')
         for payment in Payment.objects.filter(date__gte=date_start, status=True):
             bot = telepot.Bot(payment.user.bot.token)
             # Делаем заголовок
