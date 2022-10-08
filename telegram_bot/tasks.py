@@ -45,7 +45,7 @@ def subscriptions_payment():
         date_start = datetime.datetime.now() - timedelta(days=30)
 
         for payment in Payment.objects.filter(date__lte=date_start, status=True):
-            bot = telepot.Bot(TelegramBot.objects.filter().first().token)
+            bot = telepot.Bot(payment.user.bot.token)
             # Делаем заголовок
             bot_text = f'Сообщения для Ильи\n\n{payment.id}'
             # Отправить сообщение Илье
