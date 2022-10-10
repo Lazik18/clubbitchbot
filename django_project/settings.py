@@ -20,9 +20,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'telegram_bot.apps.TelegramBotConfig',
     'django_celery_results',
     'django_celery_beat',
+    'telegram_bot.apps.TelegramBotConfig'
 ]
 
 MIDDLEWARE = [
