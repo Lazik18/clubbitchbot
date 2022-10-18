@@ -70,6 +70,11 @@ def web_hook_bot(request, bot_url):
         return HttpResponse('ok', content_type="text/plain", status=200)
 
 
+@csrf_exempt
+def robokassa_result(request):
+    pass
+
+
 # Логика для бота
 def bot_logic(bot_id, chat_id, chat_result, type_message, message_id):
     # Получаем данные бота
