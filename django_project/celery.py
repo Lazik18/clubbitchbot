@@ -12,7 +12,7 @@ app.config_from_object('django.conf:settings', namespace='CELERY')
 app.conf.beat_schedule = {
     'subscriptions_payment': {
         'task': 'telegram_bot.tasks.subscriptions_payment',
-        'schedule': crontab(minute='*/10')
+        'schedule': 600
     }
 }
 
