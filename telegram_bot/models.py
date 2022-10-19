@@ -158,13 +158,9 @@ class Payment(models.Model):
             self.subscription.description
         )
 
-    # # Проверяем оплату
-    # def get_payment_statys(self):
-    #     return result_payment(
-    #         self.user.bot.id_shop,
-    #         self.user.bot.password_shop_2,
-    #         self.invoice_number
-    #     )
+    # Проверяем оплату
+    def get_payment_statys(self):
+        pass
 
     def __str__(self):
         return f'{self.date} {self.invoice_number} {self.subscription} {self.user}'
