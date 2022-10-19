@@ -8,8 +8,6 @@ import json
 
 from telepot.exception import BotWasBlockedError
 
-from telegram_bot.robokassa_api import generate_payment_link
-
 
 # Подписки
 class Subscription(models.Model):
@@ -153,14 +151,14 @@ class Payment(models.Model):
     attempt = models.IntegerField(default=0)
 
     # Получить ссылку на оплату
-    def get_payment_link(self):
-        return generate_payment_link(
-            self.user.bot.id_shop,
-            self.user.bot.password_shop_1,
-            self.subscription.price,
-            self.invoice_number,
-            self.subscription.description
-        )
+    # def get_payment_link(self):
+    #     return generate_payment_link(
+    #         self.user.bot.id_shop,
+    #         self.user.bot.password_shop_1,
+    #         self.subscription.price,
+    #         self.invoice_number,
+    #         self.subscription.description
+    #     )
 
     # Проверяем оплату
     def get_payment_statys(self):
