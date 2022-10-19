@@ -72,7 +72,7 @@ def web_hook_bot(request, bot_url):
 
 @csrf_exempt
 def robokassa_result(request):
-    pass
+    return HttpResponse(result_payment(request))
 
 
 # Логика для бота

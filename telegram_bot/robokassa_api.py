@@ -9,6 +9,8 @@ import telepot
 from urllib import parse
 from urllib.parse import urlparse
 
+from telegram_bot.models import TelegramBot, Payment
+
 
 # Создание подписи
 def calculate_signature(*args) -> str:
@@ -45,7 +47,7 @@ def generate_payment_link(
 
 
 # Получаем результат оплаты
-def result_payment(
+def result_payment2(
     merchant_login: str,  # Логин магазина
     merchant_password_2: str,  # Пароль магазина
     number,  # Номер заказа
@@ -82,3 +84,22 @@ def result_payment(
             return False
     except Exception:
         return False
+
+
+def result_payment(request):
+    param_request = request.POST.dict()
+    cost = param_request['OutSum']
+    number = param_request['InvId']
+    signature = param_request['SignatureValue']
+
+    bot_settings = TelegramBot.objects.filter().first()
+
+    new_signature = calculate_signature(cost, number, bot_settings.password_shop_2)
+
+    if signature.lower() == new_signature.lower():
+        payment = Payment.objects.filter(invoice_number=number).first()
+        payment.status = True
+        payment.save()
+        return 'OK{}'.format(number)
+    else:
+        return 'bad sign'

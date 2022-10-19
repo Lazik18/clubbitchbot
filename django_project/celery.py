@@ -10,16 +10,10 @@ app = Celery('django_project')
 app.config_from_object('django.conf:settings', namespace='CELERY')
 
 app.conf.beat_schedule = {
-    'check_payment': {
-        'task': 'telegram_bot.tasks.check_payment',
-        'schedule': 10,
-    },
     'subscriptions_payment': {
         'task': 'telegram_bot.tasks.subscriptions_payment',
-        'schedule': 10
+        'schedule': crontab(minute=10)
     }
 }
-
-# crontab(hour=21, minute=15),
 
 app.autodiscover_tasks()
