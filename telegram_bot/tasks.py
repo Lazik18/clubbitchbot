@@ -9,7 +9,7 @@ from telegram_bot.models import TelegramBot
 
 
 @shared_task
-def subscriptions_payment():
+def subscriptions():
     bot_settings = TelegramBot.objects.filter().first()
     bot = telepot.Bot(bot_settings.token)
 

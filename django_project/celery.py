@@ -10,8 +10,8 @@ app = Celery('django_project')
 app.config_from_object('django.conf:settings', namespace='CELERY')
 
 app.conf.beat_schedule = {
-    'subscriptions_payment': {
-        'task': 'telegram_bot.tasks.subscriptions_payment',
+    'subscriptions': {
+        'task': 'telegram_bot.tasks.subscriptions',
         'schedule': 600
     }
 }
