@@ -1,10 +1,14 @@
+from urllib import parse
+
+import requests
 from django.db import models
 
 import telepot
+import json
 
 from telepot.exception import BotWasBlockedError
 
-from telegram_bot.robokassa_api import *
+from telegram_bot.robokassa_api import generate_payment_link
 
 
 # Подписки
