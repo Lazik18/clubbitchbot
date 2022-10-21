@@ -13,4 +13,4 @@ def subscriptions():
     bot_settings = TelegramBot.objects.filter().first()
     bot = telepot.Bot(bot_settings.token)
 
-    bot.sendMessage(chat_id='673616491', text='test')
+    bot.sendMessage(chat_id='673616491', text='tes55t')
