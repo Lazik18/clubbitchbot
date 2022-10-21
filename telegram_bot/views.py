@@ -310,9 +310,16 @@ def issue_price(bot_id, chat_id, chat_result, type_message, message_id):
                     invoice_number=invoice_number,
                 )
 
+                payment_url = generate_payment_link(
+                    payment.user.bot.id_shop,
+                    payment.user.bot.password_shop_1,
+                    payment.subscription.price,
+                    payment.invoice_number,
+                    payment.subscription.description)
+
                 bot_text = telegram_bot.title_payment
                 keyboard = build_keyboard('inline', [
-                    {'Оплатить': f'this_url{payment.get_payment_link()}'},  # TODO: поменять на метод из robokassa_api
+                    {'Оплатить': f'this_url{payment_url}'},
                     {'Отменить': f'step subscription'},
                 ], True)
 
