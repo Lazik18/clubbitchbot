@@ -13,6 +13,14 @@ app.conf.beat_schedule = {
     'subscriptions': {
         'task': 'telegram_bot.tasks.subscriptions',
         'schedule': 600
+    },
+    'remove_users': {
+        'task': 'telegram_bot.tasks.remove_users',
+        'schedule': 600
+    },
+    'accept_users': {
+        'task': 'telegram_bot.tasks.accept_users',
+        'schedule': 600
     }
 }
 
