@@ -22,7 +22,7 @@ def accept_users():
     bot = telebot.TeleBot(bot_settings.token)
     
     # Выбрать пользователей, которые оплатили подписку
-    users = TelegramUser.objects.excude(subscription=None).filter(subscription.active=True)
+    users = TelegramUser.objects.exclude(subscription=None).filter(subscription__active=True)
     
     # Пытаемся добавить этих пользователей в группу
     for user in users:
@@ -37,7 +37,7 @@ def remove_users():
     bot = telebot.TeleBot(bot_settings.token)
     
     # Выбрать пользователей у которых закончилась подписка
-    users = TelegramUser.objects.excude(subscription=None).filter(subscription.active=False)
+    users = TelegramUser.objects.excude(subscription=None).filter(subscription__active=False)
     
     # Пытаемся удалить этих пользователей из группы
     for user in users:
