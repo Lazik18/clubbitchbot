@@ -26,7 +26,7 @@ def accept_users():
     users = TelegramUser.objects.exclude(subscription=None)
 
     bot2 = telepot.Bot(bot_settings.token)
-    bot2.sendMessage(chat_id='673616491', text='t15t')
+    bot2.sendMessage(chat_id='673616491', text=f'{users}')
 
     # Пытаемся добавить этих пользователей в группу
     for user in users:
