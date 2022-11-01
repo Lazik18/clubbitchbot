@@ -24,6 +24,7 @@ def accept_users():
 
     # Выбрать пользователей, которые оплатили подписку
     users = TelegramUser.objects.exclude(subscription=None)
+    bot.sendMessage(chat_id='673616491', text='t15t')
 
     # Пытаемся добавить этих пользователей в группу
     for user in users:
