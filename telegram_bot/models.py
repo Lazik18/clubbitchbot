@@ -118,6 +118,8 @@ class TelegramUser(models.Model):
     step = models.TextField(default='start', verbose_name='Текущий шаг')
     # Текущая подписка
     subscription = models.ForeignKey(Subscription, on_delete=models.CASCADE, default=None, blank=True, null=True)
+    # Дата начала подписки
+    date_sub = models.DateTimeField(blank=True, null=True, verbose_name='Дата начала подписки')
 
     # Отправляем сообщение
     # Отправить пользователю сообщение

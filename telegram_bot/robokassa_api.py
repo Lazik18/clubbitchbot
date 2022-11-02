@@ -1,3 +1,5 @@
+import datetime
+
 import requests
 
 import decimal
@@ -100,6 +102,10 @@ def result_payment(request):
         payment = Payment.objects.filter(invoice_number=int(number)).first()
         payment.status = True
         payment.save()
+        user = payment.user
+        user.subscription = payment.subscription
+        user.date_sub = datetime.datetime.now()
+        user.save()
         return 'OK{}'.format(number)
     else:
         return 'bad sign'
