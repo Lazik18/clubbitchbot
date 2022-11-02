@@ -25,12 +25,9 @@ def accept_users():
     # Выбрать пользователей, которые оплатили подписку
     users = TelegramUser.objects.exclude(subscription=None)
 
-    bot.sendMessage(chat_id='673616491', text=f'{users}')
-
     # Пытаемся добавить этих пользователей в группу
     for user in users:
         try:
-            bot.sendMessage(chat_id='673616491', text='tes215t')
             requests.get(f'https://api.telegram.org/bot{bot_settings.token}/approveChatJoinRequest?chat_id={bot_settings.chat_id}&user_id={user.chat_id}')
         except Exception as e:
             bot.sendMessage(chat_id='673616491', text=f'{e}')
@@ -48,9 +45,8 @@ def remove_users():
     # Пытаемся удалить этих пользователей из группы
     for user in users:
         try:
-            pass
-            # bot.ban_chat_member(bot_settings.chat_id, user.chat_id)
-            # bot.unban_chat_member(bot_settings.chat_id, user.chat_id)
+            requests.get(f'https://api.telegram.org/bot{bot_settings.token}/banChatMember?chat_id={bot_settings.chat_id}&user_id={user.chat_id}')
+            requests.get(f'https://api.telegram.org/bot{bot_settings.token}/unbanChatMember?chat_id={bot_settings.chat_id}&user_id={user.chat_id}')
         except Exception as e:
-            pass
+            bot.sendMessage(chat_id='673616491', text=f'{e}')
     return True
