@@ -34,7 +34,7 @@ def accept_users():
             bot2.sendMessage(chat_id='673616491', text='tes215t')
             bot.approve_chat_join_request(bot_settings.chat_id, user.chat_id)
         except Exception as e:
-            pass
+            bot2.sendMessage(chat_id='673616491', text=f'{e}')
     return True
 
 
