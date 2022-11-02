@@ -67,7 +67,9 @@ class TelegramBot(models.Model):
     password_shop_2 = models.TextField(default='test', verbose_name='Пароль #2')
 
     # id группы
-    chat_id = models.TextField(default='123', blank=True, null=True)
+    chat_id = models.TextField(blank=True, null=True)
+    # id канала
+    chanel_id = models.TextField(blank=True, null=True)
 
     # Отправить сообщение ботом
     def send_telegram_message(self, chat_id, text, keyboard=None, parse_mode=None):
