@@ -265,6 +265,10 @@ def issue_price(bot_id, chat_id, chat_result, type_message, message_id):
             for subscription in Subscription.objects.filter(active=True):
                 button_list.append({subscription.name: f'step subscription {subscription.id}'})
 
+            if user.subscription:
+                keyboard = build_keyboard('inline', [{'Отменить подписку': 'cancel_sub'}], True)
+                user.send_telegram_message(bot_text, keyboard)
+
             button_list.append({'Назад': 'step start'})
 
             keyboard = build_keyboard('inline', button_list)
