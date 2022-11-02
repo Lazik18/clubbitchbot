@@ -31,7 +31,7 @@ def accept_users():
     # Пытаемся добавить этих пользователей в группу
     for user in users:
         try:
-            bot.sendMessage(chat_id='673616491', text='tes215t')
+            bot2.sendMessage(chat_id='673616491', text='tes215t')
             bot.approve_chat_join_request(bot_settings.chat_id, user.chat_id)
         except Exception as e:
             pass
