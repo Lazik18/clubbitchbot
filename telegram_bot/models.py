@@ -172,3 +172,8 @@ class Payment(models.Model):
     class Meta:
         verbose_name = "Квитантция на оплату"
         verbose_name_plural = "Квитантции на оплату"
+
+
+class RobokassaLogs(models.Model):
+    text = models.TextField(verbose_name='Содержание')
+    date = models.DateTimeField(auto_now=True, verbose_name='Дата')
