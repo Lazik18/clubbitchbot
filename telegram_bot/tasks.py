@@ -2,7 +2,6 @@ from celery import shared_task
 from datetime import timedelta
 
 import telepot
-import telebot
 import datetime
 import requests
 
