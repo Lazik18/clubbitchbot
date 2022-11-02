@@ -72,6 +72,7 @@ def web_hook_bot(request, bot_url):
 
 @csrf_exempt
 def robokassa_result(request):
+    RobokassaLogs.objects.create(text=str(request.POST.dict()))
     return HttpResponse(result_payment(request))
 
 
