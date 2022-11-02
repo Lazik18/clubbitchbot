@@ -2,8 +2,8 @@ from celery import shared_task
 from datetime import timedelta
 
 import telepot
-import telebot
 import datetime
+import requests
 
 from telegram_bot.models import TelegramBot, TelegramUser
 
@@ -20,28 +20,27 @@ def subscriptions():
 @shared_task
 def accept_users():
     bot_settings = TelegramBot.objects.filter().first()
-    bot = telebot.TeleBot(bot_settings.token)
+    bot = telepot.Bot(bot_settings.token)
 
     # Выбрать пользователей, которые оплатили подписку
     users = TelegramUser.objects.exclude(subscription=None)
 
-    bot2 = telepot.Bot(bot_settings.token)
-    bot2.sendMessage(chat_id='673616491', text=f'{users}')
+    bot.sendMessage(chat_id='673616491', text=f'{users}')
 
     # Пытаемся добавить этих пользователей в группу
     for user in users:
         try:
-            bot2.sendMessage(chat_id='673616491', text='tes215t')
-            bot.approve_chat_join_request(bot_settings.chat_id, user.chat_id)
+            bot.sendMessage(chat_id='673616491', text='tes215t')
+            requests.get(f'https://api.telegram.org/bot{bot_settings.token}/approveChatJoinRequest?chat_id={bot_settings.chat_id}&user_id={user.chat_id}')
         except Exception as e:
-            bot2.sendMessage(chat_id='673616491', text=f'{e}')
+            bot.sendMessage(chat_id='673616491', text=f'{e}')
     return True
 
 
 @shared_task
 def remove_users():
     bot_settings = TelegramBot.objects.filter().first()
-    bot = telebot.TeleBot(bot_settings.token)
+    bot = telepot.Bot(bot_settings.token)
 
     # Выбрать пользователей у которых закончилась подписка
     users = TelegramUser.objects.filter(subscription=None)
@@ -49,8 +48,9 @@ def remove_users():
     # Пытаемся удалить этих пользователей из группы
     for user in users:
         try:
-            bot.ban_chat_member(bot_settings.chat_id, user.chat_id)
-            bot.unban_chat_member(bot_settings.chat_id, user.chat_id)
+            pass
+            # bot.ban_chat_member(bot_settings.chat_id, user.chat_id)
+            # bot.unban_chat_member(bot_settings.chat_id, user.chat_id)
         except Exception as e:
             pass
     return True
