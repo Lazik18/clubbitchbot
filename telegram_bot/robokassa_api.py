@@ -97,7 +97,7 @@ def result_payment(request):
     new_signature = calculate_signature(cost, number, bot_settings.password_shop_2)
 
     if signature.lower() == new_signature.lower():
-        payment = Payment.objects.filter(invoice_number=number).first()
+        payment = Payment.objects.filter(invoice_number=int(number)).first()
         payment.status = True
         payment.save()
         return 'OK{}'.format(number)
