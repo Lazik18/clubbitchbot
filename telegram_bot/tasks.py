@@ -17,7 +17,7 @@ def subscriptions():
 
     for user in users:
         try:
-            if user.date_sub < datetime.datetime.now()-timedelta(days=30):
+            if user.date_sub < (datetime.datetime.now(tz=datetime.timezone.utc) - timedelta(days=30)):
                 user.date_sub = None
                 user.subscription = None
                 user.save()
