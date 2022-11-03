@@ -116,9 +116,27 @@ def recurring_payment(user_pk):
     url = 'https://auth.robokassa.ru/Merchant/Recurring'
     bot_settings = TelegramBot.objects.filter().first()
     user = TelegramUser.objects.get(pk=user_pk)
+
+    invoice_number = Payment.objects.all().last().invoice_number + 1
+
+    payment = Payment.objects.create(
+        subscription=user.subscription,
+        user=user,
+        invoice_number=invoice_number,
+    )
+
+    signature = calculate_signature(
+        bot_settings.id_shop,
+        payment.subscription.price,
+        invoice_number,
+        bot_settings.password_shop_1
+    )
+
     data = {"MerchantLogin": f"{bot_settings.id_shop}",
-            "InvoiceID": f"{user.previous_invoice_id}",
-            "PreviousInvoiceID": f"{}",
-            "Description": f"",
-            "SignatureValue": f"",
-            "OutSum": f""}
+            "InvoiceID": f"{invoice_number}",
+            "PreviousInvoiceID": f"{user.previous_invoice_id}",
+            "Description": f"{payment.subscription.description}",
+            "SignatureValue": f"{signature}",
+            "OutSum": f"{payment.subscription.price}"}
+
+    requests.post(url, data)
