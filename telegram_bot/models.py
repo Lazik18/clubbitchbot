@@ -120,6 +120,8 @@ class TelegramUser(models.Model):
     subscription = models.ForeignKey(Subscription, on_delete=models.CASCADE, default=None, blank=True, null=True)
     # Дата начала подписки
     date_sub = models.DateTimeField(blank=True, null=True, verbose_name='Дата начала подписки')
+    # Материнский платеж
+    previous_invoice_id = models.IntegerField(blank=True, null=True, verbose_name='Материнский платеж')
 
     # Отправляем сообщение
     # Отправить пользователю сообщение

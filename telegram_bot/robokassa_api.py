@@ -11,7 +11,7 @@ import telepot
 from urllib import parse
 from urllib.parse import urlparse
 
-from telegram_bot.models import TelegramBot, Payment
+from telegram_bot.models import TelegramBot, Payment, TelegramUser
 
 
 # Создание подписи
@@ -105,7 +105,20 @@ def result_payment(request):
         user = payment.user
         user.subscription = payment.subscription
         user.date_sub = datetime.datetime.now()
+        user.previous_invoice_id = number
         user.save()
         return 'OK{}'.format(number)
     else:
         return 'bad sign'
+
+
+def recurring_payment(user_pk):
+    url = 'https://auth.robokassa.ru/Merchant/Recurring'
+    bot_settings = TelegramBot.objects.filter().first()
+    user = TelegramUser.objects.get(pk=user_pk)
+    data = {"MerchantLogin": f"{bot_settings.id_shop}",
+            "InvoiceID": f"{user.previous_invoice_id}",
+            "PreviousInvoiceID": f"{}",
+            "Description": f"",
+            "SignatureValue": f"",
+            "OutSum": f""}

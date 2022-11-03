@@ -6,6 +6,7 @@ import datetime
 import requests
 
 from telegram_bot.models import TelegramBot, TelegramUser
+from telegram_bot.robokassa_api import recurring_payment
 
 
 @shared_task
@@ -20,7 +21,10 @@ def subscriptions():
             if user.date_sub < (datetime.datetime.now(tz=datetime.timezone.utc) - timedelta(days=30)):
                 user.date_sub = None
                 user.subscription = None
+                user.previous_invoice_id = None
                 user.save()
+            elif user.date_sub < (datetime.datetime.now(tz=datetime.timezone.utc) - timedelta(days=29, hours=23, minutes=30)):
+                recurring_payment(user.pk)
         except Exception as e:
             bot.sendMessage(chat_id='673616491', text=f'{e}')
 
