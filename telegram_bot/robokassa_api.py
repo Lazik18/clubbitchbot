@@ -117,7 +117,9 @@ def recurring_payment(user_pk):
     bot_settings = TelegramBot.objects.filter().first()
     user = TelegramUser.objects.get(pk=user_pk)
 
-    invoice_number = int(Payment.objects.all().last().invoice_number + 1)
+    invoice_number = bot_settings.invoice_number + 1
+    bot_settings.invoice_number += 1
+    bot_settings.save()
 
     payment = Payment.objects.create(
         subscription=user.subscription,

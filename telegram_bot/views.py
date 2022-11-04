@@ -309,7 +309,9 @@ def issue_price(bot_id, chat_id, chat_result, type_message, message_id):
                 #     if Payment.objects.filter(invoice_number=invoice_number).count() == 0:
                 #         break
 
-                invoice_number = int(Payment.objects.all().last().invoice_number) + 1
+                invoice_number = telegram_bot.invoice_number + 1
+                telegram_bot.invoice_number += 1
+                telegram_bot.save()
 
                 payment = Payment.objects.create(
                     subscription=subscription,

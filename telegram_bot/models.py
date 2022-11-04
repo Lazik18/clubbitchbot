@@ -70,6 +70,8 @@ class TelegramBot(models.Model):
     chat_id = models.TextField(blank=True, null=True)
     # id канала
     chanel_id = models.TextField(blank=True, null=True)
+    # Последний номер оплаты
+    invoice_number = models.IntegerField(default=1)
 
     # Отправить сообщение ботом
     def send_telegram_message(self, chat_id, text, keyboard=None, parse_mode=None):
