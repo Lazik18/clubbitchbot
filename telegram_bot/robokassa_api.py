@@ -141,4 +141,4 @@ def recurring_payment(user_pk):
             "SignatureValue": f"{signature}",
             "OutSum": f"{payment.subscription.price}"}
 
-    requests.post(url, data)
+    return requests.post(url, data)

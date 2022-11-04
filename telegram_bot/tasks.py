@@ -26,7 +26,8 @@ def subscriptions():
                 user.save()
             elif user.date_sub < (datetime.datetime.now(tz=datetime.timezone.utc) - timedelta(days=29, hours=23, minutes=30)):
                 bot.sendMessage(chat_id='673616491', text=f'test')
-                recurring_payment(user.pk)
+                result = recurring_payment(user.pk)
+                bot.sendMessage(chat_id='673616491', text=f'{result}')
         except Exception as e:
             bot.sendMessage(chat_id='673616491', text=f'{e}')
 
