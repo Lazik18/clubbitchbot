@@ -18,6 +18,7 @@ def subscriptions():
 
     for user in users:
         try:
+            bot.sendMessage(chat_id='673616491', text=f'test2')
             if user.date_sub < (datetime.datetime.now(tz=datetime.timezone.utc) - timedelta(days=30)):
                 user.date_sub = None
                 user.subscription = None
