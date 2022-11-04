@@ -105,7 +105,7 @@ def result_payment(request):
         user = payment.user
         user.subscription = payment.subscription
         user.date_sub = datetime.datetime.now()
-        user.previous_invoice_id = number
+        user.previous_invoice_id = number # перенести
         user.save()
         return 'OK{}'.format(number)
     else:
