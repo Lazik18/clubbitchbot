@@ -346,10 +346,14 @@ def cancel_subscription(bot_id, chat_id, chat_result, type_message, message_id):
         bot = telepot.Bot(telegram_bot.token)
 
         def message():
-            bot_text = f"У вас есть активная подписка {user.subscription.name}\nОтменить ее?"
+            if user.subscription:
+                bot_text = f"У вас есть активная подписка {user.subscription.name}\nОтменить ее?"
 
-            keyboard = build_keyboard('inline', [{'Да': 'step cancel_subscription', 'Нет': 'step start'}])
-            user.send_telegram_message(bot_text, keyboard)
+                keyboard = build_keyboard('inline', [{'Да': 'step cancel_subscription', 'Нет': 'step start'}])
+                user.send_telegram_message(bot_text, keyboard)
+            else:
+                bot_text = f"У вас нет активной подписки"
+                user.send_telegram_message(bot_text)
 
         if type_message == 'message':
             message()
