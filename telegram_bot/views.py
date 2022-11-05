@@ -266,7 +266,9 @@ def issue_price(bot_id, chat_id, chat_result, type_message, message_id):
                 button_list.append({subscription.name: f'step subscription {subscription.id}'})
 
             if user.subscription:
-                button_list.append({'Отменить подписку': 'Отменить подписку'})
+                bot_text = f'У вас активна подписка {user.subscription.name}'
+                keyboard = build_keyboard('reply', [{'Отменить подписку': 'Отменить подписку'}], True)
+                user.send_telegram_message(bot_text, keyboard)
 
             button_list.append({'Назад': 'step start'})
 
