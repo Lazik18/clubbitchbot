@@ -94,7 +94,7 @@ def bot_logic(bot_id, chat_id, chat_result, type_message, message_id):
         if TelegramUser.objects.filter(chat_id=chat_id, bot=telegram_bot).count() == 1:
             user = TelegramUser.objects.get(chat_id=chat_id, bot=telegram_bot)
 
-            if chat_id != user.chat_id:
+            if str(chat_id) != str(user.chat_id):
                 return
 
             if chat_result == '/start':
