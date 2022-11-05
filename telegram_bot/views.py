@@ -266,8 +266,7 @@ def issue_price(bot_id, chat_id, chat_result, type_message, message_id):
                 button_list.append({subscription.name: f'step subscription {subscription.id}'})
 
             if user.subscription:
-                keyboard = build_keyboard('inline', [{'Отменить подписку': 'cancel_sub'}], True)
-                user.send_telegram_message(bot_text, keyboard)
+                button_list.append({'Отменить подписку': 'Отменить подписку'})
 
             button_list.append({'Назад': 'step start'})
 
@@ -302,12 +301,6 @@ def issue_price(bot_id, chat_id, chat_result, type_message, message_id):
                 message()
             elif 'step subscription' in chat_result:
                 subscription = Subscription.objects.get(id=chat_result.split(' ')[2])
-
-                # while True:
-                #     invoice_number = random.randrange(1, 2147483646)
-                #
-                #     if Payment.objects.filter(invoice_number=invoice_number).count() == 0:
-                #         break
 
                 invoice_number = telegram_bot.invoice_number + 1
                 telegram_bot.invoice_number += 1
@@ -371,7 +364,7 @@ def cancel_subscription(bot_id, chat_id, chat_result, type_message, message_id):
                 start(bot_id, chat_id, 'test', 'message', message_id)
             elif 'step cancel_subscription' in chat_result:
                 user.step = 'start'
-                user.subscription = None
+                user.subscription = None # TODO: отмена подписки
                 user.save()
 
                 bot_text = telegram_bot.end_cancel_text
