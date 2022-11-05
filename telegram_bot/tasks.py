@@ -19,6 +19,7 @@ def subscriptions():
     for user in users:
         try:
             if user.date_sub < (datetime.datetime.now(tz=datetime.timezone.utc) - timedelta(days=30)):
+                bot.sendMessage(chat_id=user.chat_id, text=f'Ваша подписка закончилась')
                 user.date_sub = None
                 user.subscription = None
                 user.previous_invoice_id = None
@@ -28,7 +29,7 @@ def subscriptions():
                     result = recurring_payment(user.pk)
                     bot.sendMessage(chat_id='673616491', text=f'{result.text}')
                 else:
-                    bot.sendMessage(chat_id='673616491', text=f'Не удалось оплатить подписку')
+                    bot.sendMessage(chat_id=user.chat_id, text=f'Ваша подписка закончилась')
                     user.date_sub = None
                     user.subscription = None
                     user.previous_invoice_id = None

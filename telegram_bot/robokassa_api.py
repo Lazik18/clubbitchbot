@@ -130,6 +130,7 @@ def result_payment(request):
         user.subscription = payment.subscription
         user.date_sub = datetime.datetime.now()
         if payment.maternity_payment:
+            user.auto_payment = True
             user.previous_invoice_id = number
         user.save()
         bot_success_msg(user.pk, payment.pk)
