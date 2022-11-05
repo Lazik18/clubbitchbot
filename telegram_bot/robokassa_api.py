@@ -11,6 +11,7 @@ import telepot
 from urllib import parse
 from urllib.parse import urlparse
 
+from telegram_bot.general_functions import build_keyboard
 from telegram_bot.models import TelegramBot, Payment, TelegramUser
 
 
@@ -88,6 +89,29 @@ def result_payment2(
         return False
 
 
+def bot_success_msg(user_pk, payment_pk):
+    bot_settings = TelegramBot.objects.filter().first()
+    user = TelegramUser.objects.get(pk=user_pk)
+    payment = Payment.objects.get(pk=payment_pk)
+
+    if payment.maternity_payment:
+        bot_text = 'Подписка успешно оплачена'
+        keyboard = build_keyboard('reply', [{'Отменить подписку': 'Отменить подписку'}], True)
+        user.send_telegram_message(bot_text, keyboard)
+
+        bot_text = 'Теперь можете вернутся на главную страницу'
+        if payment.subscription.chanel:
+            bot_text += f'\nСсылка на канал: {bot_settings.chanel_link}'
+        if payment.subscription.chat:
+            bot_text += f'\nСсылка на чат: {bot_settings.chat_link}'
+        keyboard = build_keyboard('inline', [{'Главная': 'step start'}])
+        user.send_telegram_message(bot_text, keyboard)
+    else:
+        bot_text = 'Подписка успешно продлена'
+        keyboard = build_keyboard('inline', [{'Главная': 'step start'}])
+        user.send_telegram_message(bot_text, keyboard)
+
+
 def result_payment(request):
     param_request = request.POST.dict()
     cost = param_request['OutSum']
@@ -108,6 +132,7 @@ def result_payment(request):
         if payment.maternity_payment:
             user.previous_invoice_id = number
         user.save()
+        bot_success_msg(user.pk, payment.pk)
         return 'OK{}'.format(number)
     else:
         return 'bad sign'

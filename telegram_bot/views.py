@@ -364,7 +364,7 @@ def cancel_subscription(bot_id, chat_id, chat_result, type_message, message_id):
                 start(bot_id, chat_id, 'test', 'message', message_id)
             elif 'step cancel_subscription' in chat_result:
                 user.step = 'start'
-                user.subscription = None # TODO: отмена подписки
+                user.auto_payment = False
                 user.save()
 
                 bot_text = telegram_bot.end_cancel_text

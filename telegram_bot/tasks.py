@@ -24,8 +24,16 @@ def subscriptions():
                 user.previous_invoice_id = None
                 user.save()
             elif user.date_sub < (datetime.datetime.now(tz=datetime.timezone.utc) - timedelta(days=29, hours=23, minutes=30)):
-                result = recurring_payment(user.pk)
-                bot.sendMessage(chat_id='673616491', text=f'{result.text}')
+                if user.auto_payment:
+                    result = recurring_payment(user.pk)
+                    bot.sendMessage(chat_id='673616491', text=f'{result.text}')
+                else:
+                    bot.sendMessage(chat_id='673616491', text=f'Не удалось оплатить подписку')
+                    user.date_sub = None
+                    user.subscription = None
+                    user.previous_invoice_id = None
+                    user.save()
+
         except Exception as e:
             bot.sendMessage(chat_id='673616491', text=f'{e}')
 
@@ -43,7 +51,10 @@ def accept_users():
     # Пытаемся добавить этих пользователей в группу
     for user in users:
         try:
-            requests.get(f'https://api.telegram.org/bot{bot_settings.token}/approveChatJoinRequest?chat_id={bot_settings.chat_id}&user_id={user.chat_id}')
+            if user.subscription.chat:
+                requests.get(f'https://api.telegram.org/bot{bot_settings.token}/approveChatJoinRequest?chat_id={bot_settings.chat_id}&user_id={user.chat_id}')
+            if user.subscription.chanel:
+                requests.get(f'https://api.telegram.org/bot{bot_settings.token}/approveChatJoinRequest?chat_id={bot_settings.chanel_id}&user_id={user.chat_id}')
         except Exception as e:
             bot.sendMessage(chat_id='673616491', text=f'{e}')
     return True
@@ -57,11 +68,13 @@ def remove_users():
     # Выбрать пользователей у которых закончилась подписка
     users = TelegramUser.objects.filter(subscription=None)
 
-    # Пытаемся удалить этих пользователей из группы
+    # Пытаемся удалить этих пользователей
     for user in users:
         try:
             requests.get(f'https://api.telegram.org/bot{bot_settings.token}/banChatMember?chat_id={bot_settings.chat_id}&user_id={user.chat_id}')
             requests.get(f'https://api.telegram.org/bot{bot_settings.token}/unbanChatMember?chat_id={bot_settings.chat_id}&user_id={user.chat_id}')
+            requests.get(f'https://api.telegram.org/bot{bot_settings.token}/banChatMember?chat_id={bot_settings.chanel_id}&user_id={user.chat_id}')
+            requests.get(f'https://api.telegram.org/bot{bot_settings.token}/unbanChatMember?chat_id={bot_settings.chanel_id}&user_id={user.chat_id}')
         except Exception as e:
             bot.sendMessage(chat_id='673616491', text=f'{e}')
     return True

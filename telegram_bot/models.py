@@ -19,6 +19,10 @@ class Subscription(models.Model):
     active = models.BooleanField(default=True, verbose_name='Активность')
     # Описание при оплате
     description = models.TextField(default='Описание', verbose_name='Описание при оплате')
+    # Есть ссылка на канал
+    chanel = models.BooleanField(default=False, verbose_name='Канал')
+    # Есть ссылка на чат
+    chat = models.BooleanField(default=False, verbose_name='Чат')
 
     def __str__(self):
         return self.name
@@ -73,6 +77,12 @@ class TelegramBot(models.Model):
     # Последний номер оплаты
     invoice_number = models.IntegerField(default=1)
 
+    # ссылка на канал
+    chanel_link = models.TextField(blank=True, null=True)
+    # ссылка на чат
+    chat_link = models.TextField(blank=True, null=True)
+
+
     # Отправить сообщение ботом
     def send_telegram_message(self, chat_id, text, keyboard=None, parse_mode=None):
         bot = telepot.Bot(self.token)
@@ -124,6 +134,8 @@ class TelegramUser(models.Model):
     date_sub = models.DateTimeField(blank=True, null=True, verbose_name='Дата начала подписки')
     # Материнский платеж
     previous_invoice_id = models.IntegerField(blank=True, null=True, verbose_name='Материнский платеж')
+    # Автопродление подписки
+    auto_payment = models.BooleanField(default=True)
 
     # Отправляем сообщение
     # Отправить пользователю сообщение
