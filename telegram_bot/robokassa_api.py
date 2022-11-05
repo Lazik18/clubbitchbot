@@ -105,7 +105,7 @@ def result_payment(request):
         user = payment.user
         user.subscription = payment.subscription
         user.date_sub = datetime.datetime.now()
-        if not payment.maternity_payment:
+        if payment.maternity_payment:
             user.previous_invoice_id = number
         user.save()
         return 'OK{}'.format(number)
