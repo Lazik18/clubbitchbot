@@ -153,10 +153,8 @@ class Payment(models.Model):
     invoice_number = models.IntegerField()
     # Статус
     status = models.BooleanField(default=False)
-    # Предупреждение о следующей оплате
-    warning_new_payment = models.BooleanField(default=False)
-    # Попыток провести оплату
-    attempt = models.IntegerField(default=0)
+    # Материнский платеж
+    maternity_payment = models.BooleanField(default=True)
 
     # Получить ссылку на оплату
     # def get_payment_link(self):

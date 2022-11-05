@@ -105,7 +105,8 @@ def result_payment(request):
         user = payment.user
         user.subscription = payment.subscription
         user.date_sub = datetime.datetime.now()
-        user.previous_invoice_id = number # перенести
+        if not payment.maternity_payment:
+            user.previous_invoice_id = number
         user.save()
         return 'OK{}'.format(number)
     else:
@@ -125,6 +126,7 @@ def recurring_payment(user_pk):
         subscription=user.subscription,
         user=user,
         invoice_number=invoice_number,
+        maternity_payment=False
     )
 
     signature = calculate_signature(
@@ -134,11 +136,15 @@ def recurring_payment(user_pk):
         bot_settings.password_shop_1
     )
 
-    data = {"MerchantLogin": f"{bot_settings.id_shop}",
-            "InvoiceID": f"{invoice_number}",
-            "PreviousInvoiceID": f"{user.previous_invoice_id}",
-            "Description": f"{payment.subscription.description}",
-            "SignatureValue": f"{signature}",
-            "OutSum": f"{payment.subscription.price}"}
+    payload = {'MerchantLogin': 'clubbitchbot',
+               'InvoiceID': f'{invoice_number}',
+               'PreviousInvoiceID': f'{user.previous_invoice_id}',
+               'Description': f'{payment.subscription.description}',
+               'SignatureValue': f'{signature}',
+               'OutSum': f'{payment.subscription.price}'}
+    files = []
+    headers = {}
 
-    return requests.post(url, data)
+    response = requests.request("POST", url, headers=headers, data=payload, files=files)
+
+    return response
