@@ -356,6 +356,8 @@ def cancel_subscription(bot_id, chat_id, chat_result, type_message, message_id):
                 user.send_telegram_message(bot_text, keyboard)
             else:
                 bot_text = f"У вас нет активной подписки"
+                user.step = 'start'
+                user.save()
                 user.send_telegram_message(bot_text)
 
         if type_message == 'message':
