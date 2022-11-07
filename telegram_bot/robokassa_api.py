@@ -95,11 +95,11 @@ def bot_success_msg(user_pk, payment_pk):
     payment = Payment.objects.get(pk=payment_pk)
 
     if payment.maternity_payment:
-        bot_text = 'Подписка успешно оплачена'
+        bot_text = bot_settings.success_payment
         keyboard = build_keyboard('reply', [{'Отменить подписку': 'Отменить подписку'}], True)
         user.send_telegram_message(bot_text, keyboard)
 
-        bot_text = 'Теперь можете вернутся на главную страницу'
+        bot_text = bot_settings.success_payment_2
         if payment.subscription.chanel:
             bot_text += f'\nСсылка на канал: {bot_settings.chanel_link}'
         if payment.subscription.chat:
@@ -107,7 +107,7 @@ def bot_success_msg(user_pk, payment_pk):
         keyboard = build_keyboard('inline', [{'Главная': 'step start'}])
         user.send_telegram_message(bot_text, keyboard)
     else:
-        bot_text = 'Подписка успешно продлена'
+        bot_text = bot_settings.success_payment_sub
         keyboard = build_keyboard('inline', [{'Главная': 'step start'}])
         user.send_telegram_message(bot_text, keyboard)
 

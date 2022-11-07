@@ -53,10 +53,18 @@ class TelegramBot(models.Model):
     title_payment = models.TextField(verbose_name='Заголовок с ссылкой на оплату', default='Оплата')
     # Успешная оплата
     success_payment = models.TextField(verbose_name='Успешная оплата', default='Оплата')
+    # Успешная оплата 2
+    success_payment_2 = models.TextField(verbose_name='Успешная оплата 2', default='Оплата')
     # Текст с кнопкой отмены
     cancel_text = models.TextField(verbose_name='Текст с кнопкой отмены', default='Оплата')
     # Текст итоговой отмены
     end_cancel_text = models.TextField(verbose_name='Текст итоговой отмены', default='Оплата')
+    # Текст успешного продления подписки
+    success_payment_sub = models.TextField(verbose_name='Текст успешного продления подписки', default='Оплата')
+    # Текст окончания подписки (неудачная оплата)
+    end_subscribe_payment = models.TextField(verbose_name='Текст окончания подписки (неудачная оплата)', default='Конец')
+    # Текст окончания подписки (отмена подписки)
+    end_subscribe_cancel = models.TextField(verbose_name='Текст окончания подписки (отмена подписки)', default='Конец')
 
     # Оферта
     doc_1 = models.FileField(upload_to='static/file', blank=True, null=True, verbose_name='Оферта')

@@ -19,25 +19,23 @@ def subscriptions():
     for user in users:
         try:
             if user.date_sub < (datetime.datetime.now(tz=datetime.timezone.utc) - timedelta(days=30)):
-                bot.sendMessage(chat_id=user.chat_id, text=f'Ваша подписка закончилась')
+                bot.sendMessage(chat_id=user.chat_id, text=bot_settings.end_subscribe_payment)
                 user.date_sub = None
                 user.subscription = None
                 user.previous_invoice_id = None
                 user.save()
             elif user.date_sub < (datetime.datetime.now(tz=datetime.timezone.utc) - timedelta(days=29, hours=23, minutes=30)):
                 if user.auto_payment:
-                    result = recurring_payment(user.pk)
-                    bot.sendMessage(chat_id='673616491', text=f'{result.text}')
+                    recurring_payment(user.pk)
                 else:
-                    bot.sendMessage(chat_id=user.chat_id, text=f'Ваша подписка закончилась')
+                    bot.sendMessage(chat_id=user.chat_id, text=bot_settings.end_subscribe_cancel)
                     user.date_sub = None
                     user.subscription = None
                     user.previous_invoice_id = None
                     user.save()
 
         except Exception as e:
-            bot.sendMessage(chat_id='673616491', text=f'{e}')
-
+            pass
     return True
 
 
@@ -57,7 +55,7 @@ def accept_users():
             if user.subscription.chanel:
                 requests.get(f'https://api.telegram.org/bot{bot_settings.token}/approveChatJoinRequest?chat_id={bot_settings.chanel_id}&user_id={user.chat_id}')
         except Exception as e:
-            bot.sendMessage(chat_id='673616491', text=f'{e}')
+            pass
     return True
 
 
@@ -77,5 +75,5 @@ def remove_users():
             requests.get(f'https://api.telegram.org/bot{bot_settings.token}/banChatMember?chat_id={bot_settings.chanel_id}&user_id={user.chat_id}')
             requests.get(f'https://api.telegram.org/bot{bot_settings.token}/unbanChatMember?chat_id={bot_settings.chanel_id}&user_id={user.chat_id}')
         except Exception as e:
-            bot.sendMessage(chat_id='673616491', text=f'{e}')
+            pass
     return True
